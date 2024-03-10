@@ -23,7 +23,7 @@ import java.net.UnknownHostException;
 public class MainActivity extends AppCompatActivity {
 
     String hostname = "se2-submission.aau.at";
-    int port = 2008;
+    int port = 20080;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +54,35 @@ public class MainActivity extends AppCompatActivity {
                     send.println(editTextNumber.getText().toString());
                     String answer = receive.readLine();
                     txtResult.setText(answer);
+
                 }catch (UnknownHostException e){
                     throw new RuntimeException(e);
                 }catch (IOException e){
                     throw new RuntimeException(e);
                 }
-
             }
         });
+        btn_ASCII.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String matASCII = getASCII(editTextNumber.getText().toString());
+                txtResult.setText(matASCII);
+            }
+        });
+    }
+    public String getASCII(String s){
+        StringBuilder convertedNumb = new StringBuilder();
+        int i;
+
+        for(i = 0; i < s.length(); i++){
+            char digit = s.charAt(i);
+            if(i % 2 == 0){
+                convertedNumb.append(digit);
+            }else{
+                char replacement = (char) ('a' + (digit - '0'));
+                convertedNumb.append(replacement);
+            }
+        }
+        return convertedNumb.toString();
     }
 }
